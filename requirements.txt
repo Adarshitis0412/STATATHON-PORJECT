@@ -1,0 +1,19 @@
+ pandas
+ numpy 
+matplotlib 
+seaborn 
+statsmodels 
+openpyxl 
+plotly 
+streamlit 
+jinja2 
+pdfkit 
+weasyprint 
+transformers 
+openai 
+langchain 
+googletrans 
+shap 
+prophet
+google-generativeai
+python-dotenv
