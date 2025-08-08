@@ -1,7 +1,7 @@
-#importing libraries
+ #importing libraries
 import pandas as pd
 import numpy as np
-from sklearn.preprocessing import LabelEncoder,OneHotEncoder,OrdinalEncoder
+from sklearn.preprocessing import LabelEncoder,OneHotEncoder,OrdinalEncoder,StandardScaler
 from sklearn.impute import SimpleImputer  # --- NEW: for better missing value handling --- done by gpt
 from sklearn.compose import ColumnTransformer  # --- NEW: to build a reusable preprocessor pipeline ---gpt
 from sklearn.pipeline import Pipeline
