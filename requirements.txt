@@ -17,3 +17,5 @@ shap
 prophet
 google-generativeai
 python-dotenv
+ Flask 
+Flask-Cors

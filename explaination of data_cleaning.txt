@@ -1,0 +1,22 @@
+1. Identify columns to drop:
+cols_to_drop = [col for col in self.df.columns if self.df[col].isnull().mean() > drop_threshold]
+self.df.columns → saare column names list me deta hai.
+self.df[col].isnull() → har row me check karta hai ki value missing (NaN) hai ya nahi.
+.mean() → True ko 1 and False ko 0 treat karke average nikalta hai, jo actually missing ka fraction hota hai.
+Example: agar 10 rows me 9 missing hain → fraction = 0.9.
+if ... > drop_threshold → agar fraction > 0.9 hai, to matlab 90% se zyada data missing hai, column list me add kar do.
+Result: cols_to_drop ek list ban jayegi jismein sirf woh columns honge jinme bohot zyada missing data hai.
+
+2. Fill missing in numeric columns:
+for col in self.df.select_dtypes(include=['int64', 'float64']).columns:
+    missing_count = self.df[col].isnull().sum()
+    if missing_count > 0:
+        self.df[col].fillna(self.df[col].median(), inplace=True)
+        self.log.append(f"Filled {missing_count} missing values in '{col}' with median")
+select_dtypes(include=['int64','float64']) → sirf numeric columns select karo.
+missing_count → kitne rows me NaN hai, wo count karta hai.
+if missing_count > 0 → agar missing hai, to:
+.fillna(median) → NaN values ko us column ke median se replace kar do.
+Kyun median? → median outliers se affect nahi hota, isliye safe choice hai.
+Log me likh diya ki kitne missing fill hue aur kaise.
+

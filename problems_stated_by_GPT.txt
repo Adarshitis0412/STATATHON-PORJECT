@@ -1,0 +1,23 @@
+Problems to fix (file-by-file) — and exact improvements I'll make
+data_cleaning.py — problems & fixes
+Problems
+
+Misspelling & naming: handel_missing_values → should be handle_missing_values (minor but sloppy).
+
+Only numeric missing-value treatment: it fills only numeric with median and ignores categorical/date text columns. Categorical NaNs remain or are label-encoded unsafely.
+
+Columns with all-NaNs or constant columns: no handling — such columns should be dropped or flagged.
+
+Outlier logic is destructive & buggy: you loop over numeric columns and reassign self.df inside the loop, which progressively filters rows and can remove too many rows because filtering is applied sequentially. Also no check for zero standard deviation (divide-by-zero) and no alternative methods (IQR/winsorize).
+
+Encoding approach is brittle: you use pd.get_dummies for ≤10 unique values and LabelEncoder otherwise. Problems:
+
+LabelEncoder cannot be used in production for unseen categories (it will break during inference).
+
+get_dummies with pd.concat changes column order and may generate many columns; no systematic column name tracking for later inference.
+
+Standardization indiscriminately scales everything numeric: that includes one-hot columns — often you should not scale one-hot encodings. Also no pipeline object is saved (so you can't reproduce preprocessing at inference time).
+
+No configability or dry-run flags: you can’t turn off outlier removal or change strategy per column.
+
+No logging counts/metrics: self.log appends strings but not counts (e.g., how many nulls filled per column) — that's crucial for report generation.
